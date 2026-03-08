@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<scenario>
+    <environment>
+        <ned latitude="39.9944" longitude="-0.0741" />
+        <ocean />
+        <atmosphere>
+            <sun azimuth="-108.0" elevation="50.0" />
+        </atmosphere>
+    </environment>
+    
+    <materials>
+		<material name="Neutral" density="1000.0" restitution="0.5"/>
+    </materials>
+
+    <looks>
+        <look name="cirtesu_tank" gray="1.0" roughness="0.2" metalness="0.0" texture="cirtesu/tank_tex.png" />
+        <look name="aruco0" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-0.png"/>
+        <look name="aruco1" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-1.png"/>
+        <look name="aruco2" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-2.png"/>
+        <look name="aruco3" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-3.png"/>
+        <look name="aruco4" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-4.png"/>
+        <look name="aruco5" gray="1.0" roughness="0.8" texture="cirtesu/aurco_4x4_1000-5.png"/>
+        <look name="aruco6" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-6.png"/>
+        <look name="aruco7" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-7.png"/>
+        <look name="aruco8" gray="1.0" roughness="0.8" texture="cirtesu/aruco_4x4_1000-8.png"/>
+        <look name="black" gray="0.01" roughness="0.2" metalness="0.0"/>
+    </looks>
+    
+
+    <!-- First arucos row -->
+    <static name="aruco_1_1" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco1" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="4.5 3.0 4.8"/>
+   </static>
+
+   <static name="aruco_1_2" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco6" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="4.5 0.0 4.8"/>
+   </static>
+
+   <static name="aruco_1_3" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco5" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="4.5 -3.0 4.8"/>
+   </static>
+    <!-- Second arucos row -->
+    <static name="aruco_2_1" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco7" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="1.5 3.0 4.8"/>
+   </static>
+
+    <static name="aruco_2_2" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco4" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="1.5 0.0 4.8"/>
+   </static>
+
+   <static name="aruco_2_3" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco0" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="1.5 -3.0 4.8"/>
+   </static>
+
+   <!-- Third arucos row -->
+   <static name="aruco_3_1" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco8" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="-1.5 3.0 4.8"/>
+   </static>
+
+   <static name="aruco_3_2" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco2" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="-1.5 0.0 4.8"/>
+   </static>
+
+   <static name="aruco_3_3" type="box">
+		<dimensions xyz="0.5 0.5 0.02"/>
+		<material name="Netural"/>
+		<look name="aruco3" uv_mode="1"/>
+		<world_transform rpy="0.0 0.0 0.0" xyz="-1.5 -3.0 4.8"/>
+   </static>
+
+
+    <!-- Tank link -->
+    <static name="Tank" type="model">
+        <physical>
+            <mesh filename="cirtesu/tank_phy.obj" scale="1.0" />
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
+        </physical>
+        <visual>
+            <mesh filename="cirtesu/tank_vis.obj" scale="1.0" />
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
+        </visual>
+        <material name="Rock" />
+        <look name="cirtesu_tank" />
+        <world_transform rpy="0.0 0.0 3.1416" xyz="0.0 0.0 0.0" />
+    </static>
+
+</scenario>
