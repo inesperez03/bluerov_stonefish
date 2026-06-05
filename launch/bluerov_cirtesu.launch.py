@@ -2,6 +2,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
+from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
@@ -30,6 +31,47 @@ def generate_launch_description():
         }.items()
     )
 
+    dvl_converter_action = Node(
+        package='bluerov_stonefish',
+        executable='dvl_to_twist_node',
+        name='dvl_to_twist_node',
+        output='screen',
+        parameters=[{
+            'input_topic': '/bluerov/stonefish/sensors/dvl_sim',
+            'output_topic': '/bluerov/stonefish/sensors/dvl'
+        }]
+    )
+
+    battery_status_action = Node(
+        package='bluerov_stonefish',
+        executable='battery_status_simulated',
+        name='battery_status_simulated',
+        output='screen',
+        parameters=[{
+            'battery_topic': '/bluerov/stonefish/sensors/battery',
+            'thruster_topics': ['/bluerov/controller/thruster_setpoints_sim'],
+            'battery_frame_id': 'bluerov/battery'
+        }]
+    )
+
+    leak_sensors_action = Node(
+        package='bluerov_stonefish',
+        executable='leak_sensors_simulated',
+        name='leak_sensors_simulated',
+        output='screen',
+        parameters=[{
+            'leak_topic': '/bluerov/stonefish/sensors/leak',
+            'sensor_frames': [
+                'bluerov/main_cylinder',
+                'bluerov/battery_cylinder'
+            ],
+            'leak_detected': [False, False]
+        }]
+    )
+
     return LaunchDescription([
-        simulator_action
+        simulator_action,
+        dvl_converter_action,
+        battery_status_action,
+        leak_sensors_action
     ])

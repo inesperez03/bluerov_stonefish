@@ -465,7 +465,7 @@
 		<!-- T1 -->
 		<actuator name="Thruster_R_FORWARD_FRONT" type="thruster">
 			<origin rpy="0.0 0.0 0.7853981633974483" xyz="-0.10335 0.13007 0.027378"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="true">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -487,7 +487,7 @@
 		<!-- T2 -->
 		<actuator name="Thruster_L_FORWARD_FRONT" type="thruster">
 			<origin rpy="0.0 0.0 -3.9269908169872414" xyz="0.10224 0.13007 0.027084"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="true">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -509,7 +509,7 @@
 		<!-- T3 -->
 		<actuator name="Thruster_R_FORWARD_REAR" type="thruster">
 			<origin rpy="0.0 0.0 -0.7853981633974483" xyz="-0.10196 -0.15372 0.026784"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="false">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -531,7 +531,7 @@
 		<!-- T4 -->
 		<actuator name="Thruster_L_FORWARD_REAR" type="thruster">
 			<origin rpy="0.0 0.0 3.9269908169872414" xyz="0.10288 -0.15091 0.027475"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="true">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -553,7 +553,7 @@
 		<!-- T5 -->
 		<actuator name="Thruster_R_UP_FRONT" type="thruster">
 			<origin rpy="0.0 -1.5707963267948966 0.0" xyz="-0.218 0.117 -0.037726"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="true">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -575,7 +575,7 @@
 		<!-- T6 -->
 		<actuator name="Thruster_L_UP_FRONT" type="thruster">
 			<origin rpy="0.0 -1.5707963267948966 0." xyz="0.218 0.117 -0.037726"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="false">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -597,7 +597,7 @@
 		<!-- T7 -->
 		<actuator name="Thruster_R_UP_REAR" type="thruster">
 			<origin rpy="0.0 -1.5707963267948966 0.0" xyz="-0.218 -0.123 -0.037726"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="false">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -619,7 +619,7 @@
 		<!-- T8 -->
 		<actuator name="Thruster_L_UP_REAR" type="thruster">
 			<origin rpy="0.0 -1.5707963267948966 0.0" xyz="0.218 -0.123 -0.037726"/>
-			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="false" normalized_setpoint="true"/>
+			<specs max_setpoint="${3278.0/60.0*2.0*pi}" inverted_setpoint="true" normalized_setpoint="true"/>
 			<propeller diameter="0.07" right="true">
 				<mesh filename="bluerov2_heavy2/Propeller.obj" scale="1.0"/>
 				<material name="Neutral"/>
@@ -642,41 +642,44 @@
 		<sensor name="dynamics" type="odometry" rate="100.0">
 			<link name="Vehicle"/>
 			<origin rpy="0.0 0.0 1.57" xyz="0.0 0.0 0.0"/>
-			<!-- <ros_publisher topic="/$(arg robot_name)/dynamics/odometry"/> -->
-			<ros_publisher topic="/bluerov/navigator/odometry"/>
+			<ros_publisher topic="/bluerov/stonefish/odometry"/>
 		</sensor>
 
-		<sensor name="dvl" type="dvl" rate="5.0">
-			<link name="Vehicle"/>
-			<origin rpy="3.1416 0.0 -0.785" xyz="0.0 0.0 0.0"/>
-			<specs beam_angle="30.0"/>
-			<range velocity="9.0 9.0 9.0" altitude_min="0.5" altitude_max="81.0"/>
-			<noise velocity="0.0015" altitude="0.001"/>
-			<ros_publisher topic="/bluerov/navigator/dvl_sim" altitude_topic="/bluerov/navigator/altitude"/>
-		</sensor>
-
-		<sensor name="ins_filter" type="ins" rate="20.0">
-			<link name="Vehicle"/>
-			<origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
-			<noise angle="0.000001745" angular_velocity="0.00001745"/>
-			<ros_publisher topic="/bluerov/navigator/imu"/>
-		</sensor>
-               
-		<sensor name="INS" rate="100.0" type="ins">
-			<output_frame rpy="0.0 0.0 0.0" xyz="-0.2 -0.4 0.3"/>
-			<noise angular_velocity="0.00001745" linear_acceleration="0.00005"/>
-			<external_sensors dvl="dvl" gps="gps" pressure="pressure"/>
-			<origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
-			<link name="Vehicle"/>
-		    <ros_publisher topic="/bluerov/navigator/ins"/>
+		<sensor name="IMU" rate="100.0" type="imu">
+		    <range angular_velocity="0.0 0.0 0.0" linear_acceleration="0.0"/>
+		    <noise angle="0.0 0.0 0.0" angular_velocity="0.00" yaw_drift="0.000" linear_acceleration="0.0"/>
+		    <history samples="1"/>
+		    <origin xyz="0.05 0.0 -0.05" rpy="-1.57 0 1.57"/>
+		    <link name="Vehicle"/>
+		    <ros_publisher topic="/bluerov/stonefish/sensors/imu"/>
 		</sensor>
 
 
 		<sensor name="gps" type="gps" rate="1.0">
 			<link name="Vehicle"/>
-			<origin rpy="0.0 0.0 0.0" xyz="0 0 -0.74"/>
-			<noise ned_position="0.5"/>
-			<ros_publisher topic="/bluerov/navigator/gps"/>
+			<origin rpy="0.0 0.0 1.57" xyz="0.2 0 -0.1"/>
+			<noise ned_position="0.0"/>
+			<ros_publisher topic="/bluerov/stonefish/sensors/gps"/>
+		</sensor>
+		
+		<sensor name="Pressure" rate="50.0" type="pressure">
+		    <range pressure="10000000.0"/>
+		    <noise pressure="0.0"/>
+		    <history samples="1"/>
+		    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+		    <link name="Vehicle"/>
+		    <ros_publisher topic="/bluerov/stonefish/sensors/pressure"/>
+		</sensor>
+		
+		<sensor name="DVL" rate="20.0" type="dvl">
+		    <specs beam_angle="30.0" beam_positive_z="true"/>
+		    <range velocity="10.0 10.0 5.0" altitude_min="0.5" altitude_max="50.0"/>
+		    <water_layer minimum_layer_size="10.0" boundary_near="10.0" boundary_far="30.0"/>
+		    <noise velocity_percent= "0.0" velocity="0.0" altitude="0.0" water_velocity_percent="0.0" water_velocity="0.0"/>
+		    <history samples="1"/>
+		    <origin xyz="0.2 0.0 0.0" rpy="0.0 0.0 1.57"/>
+		    <link name="Vehicle"/>
+		    <ros_publisher topic="/bluerov/stonefish/sensors/dvl_sim" altitude_topic="/bluerov/stonefish/sensors/dvl_altitude"/>
 		</sensor>
 
 		<!--sensor name="multibeam_link" rate="2.0" type="multibeam">
@@ -689,20 +692,39 @@
 			<ros_publisher topic="/bluerov/multibeam_link/scan" pcl_topic="/bluerov/multibeam_link/pcd"/>
 		</sensor> -->
 		
-		<sensor name="camera_gripper" rate="20.0" type="camera">
+		<!-- <sensor name="camera_gripper" rate="10.0" type="camera">
 			<specs resolution_x="960" resolution_y="540" horizontal_fov="82.0"/>
 			<origin xyz="0.01 0.33 0.08" rpy="1.6 0.0 3.08"/>
-			<!-- <origin xyz="0.0 0.18 0.0" rpy="1.4 0.0 3.1416"/> -->
 			<link name="Vehicle"/>
 			<ros_publisher topic="/bluerov/gripper/camera"/>
-		</sensor>
+		</sensor> -->
 
-		<sensor name="camera" rate="20.0" type="camera">
+		<sensor name="front_camera" rate="10.0" type="camera">
 			<specs resolution_x="1200" resolution_y="800" horizontal_fov="90.0"/>
 			<origin xyz="0.0 0.18 -0.03" rpy="1.6 0.0 3.1416"/>
-			<origin xyz="0.0 0.18 0.0" rpy="1.4 0.0 3.1416"/>
 			<link name="Vehicle"/>
-			<ros_publisher topic="/bluerov/camera"/>
+			<ros_publisher topic="/bluerov/stonefish/front_camera"/>
+		</sensor>
+		
+		<sensor name="down_camera" rate="10.0" type="camera">
+			<specs resolution_x="960" resolution_y="540" horizontal_fov="82.0"/>
+			<origin xyz="0.13 0.006 0.143" rpy="0 0 3.1416"/>
+			<link name="Vehicle"/>
+			<ros_publisher topic="/bluerov/stonefish/down_camera"/>
+		</sensor>
+		
+		<sensor name="right_camera" rate="10.0" type="camera">
+			<specs resolution_x="960" resolution_y="540" horizontal_fov="82.0"/>
+			<origin xyz="0.007 0.14 -0.1" rpy="1.57 0 3.1416"/>
+			<link name="Vehicle"/>
+			<ros_publisher topic="/bluerov/stonefish/right_camera"/>
+		</sensor>
+		
+		<sensor name="left_camera" rate="10.0" type="camera">
+			<specs resolution_x="960" resolution_y="540" horizontal_fov="82.0"/>
+			<origin xyz="-0.06 0.14 -0.1" rpy="1.57 0 3.1416"/>
+			<link name="Vehicle"/>
+			<ros_publisher topic="/bluerov/stonefish/left_camera"/>
 		</sensor>
 
 		<world_transform rpy="0.0 0.0 0.0" xyz="0 0 0.25"/>
