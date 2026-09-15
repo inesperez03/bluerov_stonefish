@@ -13,8 +13,10 @@
   <!-- Build dependencies -->
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
+  <depend>rcl_interfaces</depend>
   <depend>stonefish_ros2</depend>
   <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
 

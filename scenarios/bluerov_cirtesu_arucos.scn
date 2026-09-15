@@ -45,7 +45,7 @@
 	
 
 	<include file="$(find bluerov_stonefish)/scenarios/bluerov.scn">
-		<arg name="robot_name" value="bluerov2" />
+		<arg name="robot_name" value="bluerov" />
 		<arg name="start_yaw" value="1.0" />
 		<arg name="start_position" value="0.0 0.0 0.0" />
 	</include>

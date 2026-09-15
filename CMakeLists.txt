@@ -3,7 +3,9 @@ project(bluerov_stonefish)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rcl_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(stonefish_ros2 REQUIRED) 
@@ -14,7 +16,9 @@ enable_language(C)
 # Include directories
 include_directories(
   include
+  ${rcl_interfaces_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
+  ${std_srvs_INCLUDE_DIRS}
   ${sensor_msgs_INCLUDE_DIRS}
   ${geometry_msgs_INCLUDE_DIRS}
   ${stonefish_ros2_INCLUDE_DIRS}  # Add this line
@@ -33,6 +37,7 @@ ament_target_dependencies(dvl_to_twist_node
 add_executable(battery_status_simulated src/battery_status_simulated.cpp)
 ament_target_dependencies(battery_status_simulated
   rclcpp
+  rcl_interfaces
   sensor_msgs
   std_msgs
 )
@@ -41,6 +46,7 @@ add_executable(leak_sensors_simulated src/leak_sensors_simulated.cpp)
 ament_target_dependencies(leak_sensors_simulated
   rclcpp
   std_msgs
+  std_srvs
 )
 
 install(TARGETS

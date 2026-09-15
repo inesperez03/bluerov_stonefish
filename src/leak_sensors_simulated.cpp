@@ -4,7 +4,8 @@
 #include <vector>
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/bool.hpp"
+#include "std_srvs/srv/set_bool.hpp"
 
 class LeakSensorsSimulated : public rclcpp::Node
 {
@@ -13,6 +14,7 @@ public:
   : Node("leak_sensors_simulated")
   {
     declare_parameter<std::string>("leak_topic", "/bluerov/stonefish/sensors/leak");
+    declare_parameter<std::string>("set_leak_service", "/bluerov/stonefish/sensors/set_leak");
     declare_parameter<double>("publish_period", 1.0);
     declare_parameter<std::vector<std::string>>(
       "sensor_frames",
@@ -25,12 +27,21 @@ public:
     }
 
     const auto leak_topic = get_parameter("leak_topic").as_string();
+    const auto set_leak_service = get_parameter("set_leak_service").as_string();
     auto publish_period = get_parameter("publish_period").as_double();
     if (publish_period <= 0.0) {
       publish_period = 1.0;
     }
 
-    leak_pub_ = create_publisher<std_msgs::msg::Float32>(leak_topic, 10);
+    leak_pub_ = create_publisher<std_msgs::msg::Bool>(leak_topic, 10);
+    set_leak_srv_ = create_service<std_srvs::srv::SetBool>(
+      set_leak_service,
+      std::bind(
+        &LeakSensorsSimulated::set_leak,
+        this,
+        std::placeholders::_1,
+        std::placeholders::_2));
+
     timer_ = create_wall_timer(
       std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::duration<double>(publish_period)),
@@ -38,7 +49,7 @@ public:
   }
 
 private:
-  void publish_leaks()
+  bool current_leak_detected() const
   {
     const auto frames = sensor_frames();
     const auto leak_values = leak_values_for_frames(frames.size());
@@ -48,8 +59,15 @@ private:
       leak_detected = leak_detected || value;
     }
 
-    auto msg = std_msgs::msg::Float32();
-    msg.data = leak_detected ? 1.0F : 0.0F;
+    return leak_detected;
+  }
+
+  void publish_leaks()
+  {
+    const auto leak_detected = current_leak_detected();
+
+    auto msg = std_msgs::msg::Bool();
+    msg.data = leak_detected;
     leak_pub_->publish(msg);
   }
 
@@ -77,7 +95,38 @@ private:
     return leak_values;
   }
 
-  rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr leak_pub_;
+  void set_all_leaks(const bool leak_detected)
+  {
+    const auto frames = sensor_frames();
+    std::vector<bool> leak_values(frames.size(), leak_detected);
+
+    std::vector<rclcpp::Parameter> parameters;
+    parameters.emplace_back("leak_detected", leak_values);
+    for (std::size_t index = 0; index < frames.size(); ++index) {
+      parameters.emplace_back("leak_detected_" + std::to_string(index), leak_detected);
+    }
+
+    set_parameters(parameters);
+  }
+
+  void set_leak(
+    const std_srvs::srv::SetBool::Request::SharedPtr request,
+    std_srvs::srv::SetBool::Response::SharedPtr response)
+  {
+    set_all_leaks(request->data);
+    publish_leaks();
+
+    response->success = true;
+    response->message = request->data ? "Leak simulated" : "Leak cleared";
+
+    RCLCPP_INFO(
+      get_logger(),
+      "Leak simulation set to %s",
+      request->data ? "true" : "false");
+  }
+
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr leak_pub_;
+  rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr set_leak_srv_;
   rclcpp::TimerBase::SharedPtr timer_;
 };
 

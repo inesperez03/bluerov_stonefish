@@ -27,7 +27,11 @@ def generate_launch_description():
             'simulation_rate': '50.0',
             'window_res_x': '1200',
             'window_res_y': '800',
-            'rendering_quality': 'high'
+            'rendering_quality': 'high',
+            'sensors_sim_leak_topic': '/bluerov/stonefish/sensors/leak',
+            'sensors_sim_set_leak_service': '/bluerov/stonefish/sensors/set_leak',
+            'sensors_sim_battery_topic': '/bluerov/stonefish/sensors/battery',
+            'sensors_sim_battery_parameter_service': '/battery_status_simulated/set_parameters'
         }.items()
     )
 
@@ -61,6 +65,7 @@ def generate_launch_description():
         output='screen',
         parameters=[{
             'leak_topic': '/bluerov/stonefish/sensors/leak',
+            'set_leak_service': '/bluerov/stonefish/sensors/set_leak',
             'sensor_frames': [
                 'bluerov/main_cylinder',
                 'bluerov/battery_cylinder'

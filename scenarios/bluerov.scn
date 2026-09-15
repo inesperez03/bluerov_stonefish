@@ -16,7 +16,7 @@
 		<look name="black" gray="0.01" roughness="0.3" metalness="0.2" />
     </looks>    
 
-	<robot name="bluerov2" fixed="false" self_collisions="false">
+	<robot name="bluerov" fixed="false" self_collisions="false">
 		<base_link name="Vehicle" type="compound" physics="submerged">
 			<external_part name="SideR" type="model" physics="submerged" buoyant="false">
 				<!--<physical>
@@ -647,7 +647,7 @@
 
 		<sensor name="IMU" rate="100.0" type="imu">
 		    <range angular_velocity="0.0 0.0 0.0" linear_acceleration="0.0"/>
-		    <noise angle="0.0 0.0 0.0" angular_velocity="0.00" yaw_drift="0.000" linear_acceleration="0.0"/>
+		        <noise angle="0.005 0.005 0.01" angular_velocity="0.0" yaw_drift="0.0001" linear_acceleration="0.01"/>
 		    <history samples="1"/>
 		    <origin xyz="0.05 0.0 -0.05" rpy="-1.57 0 1.57"/>
 		    <link name="Vehicle"/>
@@ -664,7 +664,7 @@
 		
 		<sensor name="Pressure" rate="50.0" type="pressure">
 		    <range pressure="10000000.0"/>
-		    <noise pressure="0.0"/>
+		    <noise pressure="0.01"/>
 		    <history samples="1"/>
 		    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
 		    <link name="Vehicle"/>
@@ -700,10 +700,18 @@
 		</sensor> -->
 
 		<sensor name="front_camera" rate="10.0" type="camera">
-			<specs resolution_x="1200" resolution_y="800" horizontal_fov="90.0"/>
+			<specs resolution_x="640" resolution_y="480" horizontal_fov="90.0"/>
 			<origin xyz="0.0 0.18 -0.03" rpy="1.6 0.0 3.1416"/>
 			<link name="Vehicle"/>
 			<ros_publisher topic="/bluerov/stonefish/front_camera"/>
+		</sensor>
+
+		<sensor name="front_depth_camera" rate="10.0" type="depthcamera">
+			<specs resolution_x="640" resolution_y="480" horizontal_fov="90.0" depth_min="0.2" depth_max="10.0"/>
+			<noise depth="0.02"/>
+			<origin xyz="0.0 0.18 -0.03" rpy="1.6 0.0 3.1416"/>
+			<link name="Vehicle"/>
+			<ros_publisher topic="/bluerov/stonefish/front_depth_camera" frame_id="bluerov/camera_front/optical_frame"/>
 		</sensor>
 		
 		<sensor name="down_camera" rate="10.0" type="camera">
@@ -726,7 +734,7 @@
 			<link name="Vehicle"/>
 			<ros_publisher topic="/bluerov/stonefish/left_camera"/>
 		</sensor>
-
+		
 		<world_transform rpy="0.0 0.0 0.0" xyz="0 0 0.25"/>
 
 		<!-- <ros_control_interface namespace="/$(arg robot_name)/gripper" type="position">
@@ -739,6 +747,6 @@
         <ros_subscriber servos="/$(arg robot_name)/servo_commands"/> -->
 		<ros_subscriber thrusters="/bluerov/controller/thruster_setpoints_sim" forces="/bluerov/controller/thruster_manager/input_stamped" servos="/$(arg robot_name)/servo_commands"/>
 		<ros_publisher thrusters="/bluerov/controller/thruster_state" forces="/bluerov/controller/thruster_manager/output" servos="/joint_states"/>
-		<ros_base_link_transforms publish="false"/>
+		<ros_base_link_transforms publish="true"/>
 	</robot>
 </scenario>
